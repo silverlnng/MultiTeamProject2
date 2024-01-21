@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/NetWorkProject1Character.cpp" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/Private/NetGameStateBase.cpp" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/Private/NetPlayerAnimInstance.cpp" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/Private/NetworkGameInstance.cpp" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/Private/NetworkPlayerController.cpp" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Source/NetWorkProject1/Private/New/PlayerPawn.cpp" charset="x-windows-949" />
+    <file url="PROJECT" charset="x-windows-949" />
+  </component>
+</project>

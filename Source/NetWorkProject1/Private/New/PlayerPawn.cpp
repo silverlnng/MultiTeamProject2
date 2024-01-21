@@ -12,6 +12,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/SceneComponent.h"
 #include "New/Bullect.h"
+#include "net/UnrealNetwork.h"
+
 // Sets default values
 APlayerPawn::APlayerPawn()
 {
@@ -31,6 +33,9 @@ APlayerPawn::APlayerPawn()
 	
 	ArrowComp = CreateDefaultSubobject<UArrowComponent>(TEXT("arrowCompo"));
 	ArrowComp->SetupAttachment(cannonPivot);
+
+	bReplicates = true;
+	SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
