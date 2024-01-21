@@ -16,11 +16,32 @@ void ANetworkPlayerController::BeginPlay()
 	if(HasAuthority()) //주의사항 GameMode는 서버만 있음 
 	{
 	gm = GetWorld()->GetAuthGameMode<ANetworkGameModeBase>();
+
 	}
 
 	//어차피 게임모드는 서버버전이어서 rpelicated할필요 없음..
 	
 }
+
+void ANetworkPlayerController::TeamSpawn_Implementation()
+{
+	//AGameModeBase* GameMode = GetWorld()->GetAuthGameMode();
+	if (gm)
+	{
+		APawn* NewPawn = gm->SpawnDefaultPawnFor(this, gm->ChoosePlayerStart(this));
+		Possess(NewPawn);
+	}
+}
+
+//void ANetworkPlayerController::Teamspawn()
+//{
+//	AGameModeBase* GameMode = GetWorld()->GetAuthGameMode();
+//	if (GameMode)
+//	{
+//		APawn* NewPawn = GameMode->SpawnDefaultPawnFor(this, GameMode->ChoosePlayerStart(this));
+//		Possess(NewPawn);
+//	}
+//}
 
 
 

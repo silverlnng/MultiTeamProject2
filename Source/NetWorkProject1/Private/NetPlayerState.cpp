@@ -31,6 +31,8 @@ void ANetPlayerState::sesrverSetMyName_Implementation(const FString& name)
 
 void ANetPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps); 
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ANetPlayerState, bTeamB);
+
+}

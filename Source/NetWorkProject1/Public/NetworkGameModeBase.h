@@ -15,12 +15,16 @@ class NETWORKPROJECT1_API ANetworkGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	
-	AActor* ChoosePlayerStart_Implementation(AController* player) override;
+	//virtual AActor* ChoosePlayerStart_Implementation(AController* player) override;
 	//ChoosePlayerStart 가 아니라 ChoosePlayerStart_Implementation 을 override 하는 이유
 
+	AActor* ChoosePlayerStart(AController* Player);
 
 	void PostLogin(APlayerController* NewPlayer) override;
 
+	bool ShouldSpawnAtStartSpot(AController* player) override { return false; };
+
+	ANetworkGameModeBase(const FObjectInitializer& ObjectInitializer);
 
 private:
 	int32 index = 0;

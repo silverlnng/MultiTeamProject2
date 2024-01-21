@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "BattleWidget.h"
@@ -18,12 +18,12 @@ void UBattleWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	player = GetOwningPlayerPawn<ANetWorkProject1Character>();
-	//Ä³½ºÆÃÇØ¼­ °¡Á®¿À±â
+	//Ã„Â³Â½ÂºÃ†ÃƒÃ‡Ã˜Â¼Â­ Â°Â¡ÃÂ®Â¿Ã€Â±Ã¢
 	text_ammo->SetText(FText::AsNumber(0));
 	btn_exitSession->OnClicked.AddDynamic(this,&UBattleWidget::OnexitSession);
 	btn_Retry->OnClicked.AddDynamic(this,&UBattleWidget::OnRetry);
 	
-	text_PlayerList->SetText(FText::FromString(FString(TEXT("")))); //°ø¹éÀ¸·Î ÃÊ±âÈ­
+	text_PlayerList->SetText(FText::FromString(FString(TEXT("")))); //Â°Ã¸Â¹Ã©Ã€Â¸Â·ÃŽ ÃƒÃŠÂ±Ã¢ÃˆÂ­
 
 	currentTime=spectatorTime;
 }
@@ -37,7 +37,7 @@ void UBattleWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		text_ammo->SetText(FText::AsNumber(ammoCount));
 		
 		TArray<APlayerState*> players = GetWorld()->GetGameState<ANetGameStateBase>()->GetMyPlayerList();
-		//¿ùµå¿¡¼­ °ÔÀÓ½ºÅ×ÀÌÆ® °¡Á®¿Í¼­ ¹è¿­¿¡ ³Ö°í
+		//Â¿Ã¹ÂµÃ¥Â¿Â¡Â¼Â­ Â°Ã”Ã€Ã“Â½ÂºÃ…Ã—Ã€ÃŒÃ†Â® Â°Â¡ÃÂ®Â¿ÃÂ¼Â­ Â¹Ã¨Â¿Â­Â¿Â¡ Â³Ã–Â°Ã­
 		playerList="";
 		for(APlayerState* ps :players)
 		{
@@ -63,22 +63,22 @@ void UBattleWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 void UBattleWidget::PlayHitAnimation()
 {
 	PlayAnimationForward(hitAnim);
-	//Á¤¹æÇâ , ¿ª¹æÇâ ¾Ö´Ï¸ÞÀÌ¼Ç ½ÇÇà °¡´É
+	//ÃÂ¤Â¹Ã¦Ã‡Ã¢ , Â¿ÂªÂ¹Ã¦Ã‡Ã¢ Â¾Ã–Â´ÃÂ¸ÃžÃ€ÃŒÂ¼Ã‡ Â½Ã‡Ã‡Ã  Â°Â¡Â´Ã‰
 }
 
 void UBattleWidget::ShowButtons()
 {
 	//btn_exitSession->SetVisibility(ESlateVisibility::Visible);
-	//SetVisibility °¡ UWidget ¿¡ ¼±¾ð µÇ¾îÀÖÀ½
+	//SetVisibility Â°Â¡ UWidget Â¿Â¡ Â¼Â±Â¾Ã° ÂµÃ‡Â¾Ã®Ã€Ã–Ã€Â½
 	hb_menuButtons->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-	//visible À» ÇÏ¸é °¡Àå »óÀ§¿¡ ÀÖ´Â hb_menuButtons ¿¡¼­ ÀÎÅÍ·º¼ÇÀ» ¸·À½
-	//SelfHitTestInvisible À¸·Î ÀÚ½ÅÀÇ ÀÎÅÍ·º¼ÇÀº ¸·°í , ÀÚ½ÄÀÇ ÀÎÅÍ·º¼ÇÀ» È°¼ºÈ­ ÇÏ±â 
+	//visible Ã€Â» Ã‡ÃÂ¸Ã© Â°Â¡Ã€Ã¥ Â»Ã³Ã€Â§Â¿Â¡ Ã€Ã–Â´Ã‚ hb_menuButtons Â¿Â¡Â¼Â­ Ã€ÃŽÃ…ÃÂ·ÂºÂ¼Ã‡Ã€Â» Â¸Â·Ã€Â½
+	//SelfHitTestInvisible Ã€Â¸Â·ÃŽ Ã€ÃšÂ½Ã…Ã€Ã‡ Ã€ÃŽÃ…ÃÂ·ÂºÂ¼Ã‡Ã€Âº Â¸Â·Â°Ã­ , Ã€ÃšÂ½Ã„Ã€Ã‡ Ã€ÃŽÃ…ÃÂ·ÂºÂ¼Ã‡Ã€Â» ÃˆÂ°Â¼ÂºÃˆÂ­ Ã‡ÃÂ±Ã¢ 
 }
 
 void UBattleWidget::AddPlayerList(FString playerName,float score)
 {
 	playerList.Append(FString::Printf(TEXT("%s score: %d \n"),*playerName,(int32)score));
-	// ÀÌ¸§ Ãß°¡ÇÏ°í ÇÑÁÙ ¶ç·ç°í °è¼Ó Ãß°¡ ...
+	// Ã€ÃŒÂ¸Â§ ÃƒÃŸÂ°Â¡Ã‡ÃÂ°Ã­ Ã‡Ã‘ÃÃ™ Â¶Ã§Â·Ã§Â°Ã­ Â°Ã¨Â¼Ã“ ÃƒÃŸÂ°Â¡ ...
 	text_PlayerList->SetText(FText::FromString(FString(playerList)));
 	
 }
@@ -93,10 +93,12 @@ void UBattleWidget::OnRetry()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s(%d) : %s"), *FString(__FUNCTION__), __LINE__,*FString("OnRetryClicked"));
 	
-	//¹öÆ°À» ´©¸£´Â »ç¶÷Àº Å¬¶óÀÌ¾ðÆ® µÉ¼öµµ ÀÖ¾î¼­ ChangeCharToSpectator À» rpcÇÔ¼ö·Î ¸¸µé±â  
+	//Â¹Ã¶Ã†Â°Ã€Â» Â´Â©Â¸Â£Â´Ã‚ Â»Ã§Â¶Ã·Ã€Âº Ã…Â¬Â¶Ã³Ã€ÃŒÂ¾Ã°Ã†Â® ÂµÃ‰Â¼Ã¶ÂµÂµ Ã€Ã–Â¾Ã®Â¼Â­ ChangeCharToSpectator Ã€Â» rpcÃ‡Ã”Â¼Ã¶Â·ÃŽ Â¸Â¸ÂµÃ©Â±Ã¢  
 	ANetworkPlayerController* pc =player->GetController<ANetworkPlayerController>();
+
+
 	pc->ChangeCharToSpectator();
-	//ÀÔ·Âµµ
+	//Ã€Ã”Â·Ã‚ÂµÂµ
 	pc->SetShowMouseCursor(false);
 	pc->SetInputMode(FInputModeGameOnly());
 	hb_menuButtons->SetVisibility(ESlateVisibility::Hidden);

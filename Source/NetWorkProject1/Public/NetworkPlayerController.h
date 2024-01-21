@@ -26,4 +26,7 @@ public:
 	void ChangeCharToSpectator();
 	UFUNCTION(Server,Unreliable)
 	void serverRespawnPlayer();
+	
+	UFUNCTION(Server, Unreliable)
+	void TeamSpawn();
 };
