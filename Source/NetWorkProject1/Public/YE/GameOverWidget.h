@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class MULTITEAMPROJECT_API UGameOverWidget : public UUserWidget
+class NETWORKPROJECT1_API UGameOverWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
