@@ -20,5 +20,8 @@ protected:
 public:
 	UFUNCTION(Server,Reliable)
 	void sesrverSetMyName(const FString& name);	//rpc함수에서는 
+
+	UPROPERTY(Replicated)
+	bool bTeamB;
 	
 };
