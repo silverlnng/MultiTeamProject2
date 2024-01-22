@@ -11,6 +11,7 @@
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/SceneComponent.h"
+#include "Net/UnrealNetwork.h"
 #include "New/Bullect.h"
 #include "net/UnrealNetwork.h"
 
@@ -120,7 +121,8 @@ void APlayerPawn::InputFire(const FInputActionValue& Value)
 {
 	if (Controller && Value.Get<bool>() == true) //콘텐츠 외적인 . 입력계 
 	{
-		spawnBullect();
+		ServerFire();
+		
 		// 총알 스폰하기
 
 		// 1) 총알 BP 만들기
@@ -134,22 +136,46 @@ void APlayerPawn::InputFire(const FInputActionValue& Value)
 
 void APlayerPawn::spawnBullect()
 {
-	FTransform firePosition;
-	//FVector arrowVec = ArrowComp->loca
+	if(HasAuthority())
+	{
+		FTransform firePosition;
+		//FVector arrowVec = ArrowComp->loca
+		firePosition.SetLocation(ArrowComp->GetComponentLocation());
 	
-	firePosition.SetLocation(ArrowComp->GetComponentLocation());
-	
-	FVector fireDir = crossHairWidget->GetComponentLocation() - ArrowComp->GetComponentLocation();
+		FVector fireDir = crossHairWidget->GetComponentLocation() - ArrowComp->GetComponentLocation();
 
-	UE_LOG(LogTemp,Warning,TEXT("%s") , *ArrowComp->GetComponentLocation().ToString());
+		UE_LOG(LogTemp,Warning,TEXT("%s") , *ArrowComp->GetComponentLocation().ToString());
 	
-	//Rotator fireRot =  UKismetMathLibrary::MakeRotFromX(fireDir);
-	FRotator fireRot = fireDir.Rotation();
-	//크로스헤어와 fireposition 의 각도 구하기
+		//Rotator fireRot =  UKismetMathLibrary::MakeRotFromX(fireDir);
+		FRotator fireRot = fireDir.Rotation();
+		//크로스헤어와 fireposition 의 각도 구하기
 	
-	firePosition.SetRotation(fireRot.Quaternion());
-	// 위치와 각도 에 맞춰 스폰 하기 
-	ABullect* spawnbullect = GetWorld()->SpawnActor<ABullect>(bullectFactory, firePosition);
+		firePosition.SetRotation(fireRot.Quaternion());
+		// 위치와 각도 에 맞춰 스폰 하기 
+		ABullect* spawnbullect = GetWorld()->SpawnActor<ABullect>(bullectFactory, firePosition);
+	
+		spawnbullect->SetOwner(this);
+	}
+	
+}
+
+void APlayerPawn::ServerFire_Implementation()
+{
+	//위치를 동기화 시키기 
+	spawnBullect();
+}
+
+void APlayerPawn::MulticastFire_Implementation()
+{
 }
 
 
+/*void APlayerPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps); //부모에서 오버라이드 된 것들을 실행
+
+	// DOREPLIFETIME(ANetWorkProject1Character,elapsedTime);
+	// 서버만의 동기화 tick 에 변화값을 계속 주는 것
+	// c :클래스 v : 변수 =>UPROPERTY(Replicated) 가 되있어야 서버에서 인식 
+	DOREPLIFETIME(APlayerPawn, firePosition);
+}*/

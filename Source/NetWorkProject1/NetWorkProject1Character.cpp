@@ -90,7 +90,9 @@ void ANetWorkProject1Character::BeginPlay()
 	localRole = GetLocalRole();
 	remoteRole = GetRemoteRole();
 	info_UI =Cast<UPlayerInfoWidget>(playerInfoWidgetComp->GetWidget());
-	//GetController()!=nullptr&&GetController()->IsLocalController() 으로 로컬플레이어  검사 
+	
+	//GetController()!=nullptr&&GetController()->IsLocalController() 으로 로컬플레이어  검사
+	
 	if (battlewidget != nullptr && GetController() != nullptr && GetController()->IsLocalController())
 	{
 		battleUI = CreateWidget<UBattleWidget>(GetWorld(), battlewidget);

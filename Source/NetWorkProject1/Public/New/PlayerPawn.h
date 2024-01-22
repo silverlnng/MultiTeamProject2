@@ -72,4 +72,13 @@ private:
 	void Move(const FInputActionValue& Value);
 	void InputFire(const FInputActionValue& Value);
 	void spawnBullect();
+
+	/*UPROPERTY(Replicated)
+	FTransform firePosition;*/
+	
+	
+	UFUNCTION(Server,Unreliable)
+	void ServerFire();
+	UFUNCTION(NetMulticast,Unreliable)
+	void MulticastFire();
 };
