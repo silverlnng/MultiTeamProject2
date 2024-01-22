@@ -26,6 +26,11 @@ public:
 
 	ANetworkGameModeBase(const FObjectInitializer& ObjectInitializer);
 
+	void CheckReadyToStart();
+
+	void  ShowStartWidget();
+
+
 private:
 	int32 index = 0;
 };

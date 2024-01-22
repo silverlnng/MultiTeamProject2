@@ -7,10 +7,13 @@
 #include "NetPlayerState.h"
 #include "NetGameStateBase.h"
 #include "New/NetPlayerStart.h"
+#include "Kismet/GameplayStatics.h"
+#include "NetworkGameInstance.h"
 
 ANetworkGameModeBase::ANetworkGameModeBase(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer)
 {
+	//default PlayerController class √ ±‚»≠
 	PlayerStateClass = ANetPlayerState::StaticClass();
 }
 
@@ -49,6 +52,7 @@ void ANetworkGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 	
+	CheckReadyToStart();
 
 	if (NewPlayer != nullptr)
 	{
@@ -84,7 +88,26 @@ void ANetworkGameModeBase::PostLogin(APlayerController* NewPlayer)
 
 		}
 	}
+
+	
 }
+
+
+void ANetworkGameModeBase::CheckReadyToStart()
+{
+
+	// Get the number of player controllers
+	int32 NumPlayers = UGameplayStatics::GetNumPlayerControllers(GetWorld());
+
+	// Check if the number of players is 4
+	if (NumPlayers == 4)
+	{
+		// Assume all players are ready and start the game
+		ShowStartWidget();
+	}
+
+}
+
 
 
 AActor* ANetworkGameModeBase::ChoosePlayerStart(AController* Player)
@@ -108,4 +131,19 @@ AActor* ANetworkGameModeBase::ChoosePlayerStart(AController* Player)
 	}
 
 	return NULL;
+}
+
+
+void ANetworkGameModeBase::ShowStartWidget()
+{
+	
+	UE_LOG(LogTemp, Warning, TEXT("ShowStartWidget"));
+
+	/*UNetworkGameInstance* GameInstance = Cast<UNetworkGameInstance>(GetGameInstance());
+	if (GameInstance)
+	{
+		GameInstance->ShowStartWidget();
+	}*/
+
+
 }
