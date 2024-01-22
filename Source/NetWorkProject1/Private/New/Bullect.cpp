@@ -22,11 +22,6 @@ ABullect::ABullect()
 	// 발사체 컴포넌트를 update 시킬 컴포넌트 지정, 
 	// update == tick, update ->매프레임 연산하겠다
 	movementComp->SetUpdatedComponent(collisionComp);
-	
-	SetLifeSpan(5.0f);
-    
-    bReplicates = true;
-    SetReplicateMovement(true);
 }
 
 // Called when the game starts or when spawned
