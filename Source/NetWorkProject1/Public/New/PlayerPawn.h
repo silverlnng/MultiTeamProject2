@@ -53,19 +53,21 @@ public:
 	
 	
 	UPROPERTY(EditAnywhere, Category = "Mysetting")
-    float crossHairOffest = 1.2f;
+    float crossHairOffest = 2.0f;
 	UPROPERTY(EditAnywhere, Category = "Mysetting")
 	class UStaticMeshComponent* cannon;
 	UPROPERTY(EditAnywhere, Category = "Mysetting")
-	float cannonOffest_x =0.7f;
+	float cannonOffest_x =0.2f;
 	UPROPERTY(EditAnywhere, Category = "Mysetting")
-	float cannonOffest_y = 0.6f;
+	float cannonOffest_y = 0.1f;
 
 
 	UPROPERTY(EditAnywhere, Category = "Grenade")
 	TSubclassOf<class ABullect> bullectFactory;
 	UPROPERTY(EditAnywhere, Category = "Grenade")
 	ABullect* bullect;
+
+	APlayerController* pc;
 	
 private:
 	
@@ -75,10 +77,29 @@ private:
 
 	/*UPROPERTY(Replicated)
 	FTransform firePosition;*/
+
+	//회전값을 보내기 
+	UPROPERTY(Replicated)
+	FRotator cannonRot;
+	UPROPERTY(Replicated)
+	FVector widgetDir;
+	UPROPERTY(Replicated)
+	FVector currentValue;
 	
+	
+	/*UPROPERTY(Replicated)
+	FRotator cannonRot;
+	UPROPERTY(Replicated)
+	FVector widgetDir; */
 	
 	UFUNCTION(Server,Unreliable)
 	void ServerFire();
 	UFUNCTION(NetMulticast,Unreliable)
 	void MulticastFire();
+	
+	UFUNCTION(Server,Unreliable)
+	void ServerMove(FVector Value);
+	
+	UFUNCTION(NetMulticast,Unreliable)
+	void MulticastMove(FVector Value);
 };

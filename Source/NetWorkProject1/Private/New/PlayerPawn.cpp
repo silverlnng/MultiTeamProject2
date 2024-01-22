@@ -42,6 +42,8 @@ APlayerPawn::APlayerPawn()
 // Called when the game starts or when spawned
 void APlayerPawn::BeginPlay()
 {
+	pc = GetController<APlayerController>();
+	
 	Super::BeginPlay();
 	
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
@@ -51,6 +53,10 @@ void APlayerPawn::BeginPlay()
 			Subsystem->AddMappingContext(PlayerMappingContext, 0);
 
 		}
+	}
+	if(HasAuthority())
+	{
+		
 	}
 }
 
@@ -66,6 +72,7 @@ void APlayerPawn::Tick(float DeltaTime)
 	cannonPivot->SetRelativeRotation(Rotation);*/
 	
 	//FMath::Clamp(cannonPivot->GetRelativeRotation().Yaw,-20,20);
+	
 }
 
 // Called to bind functionality to input
@@ -83,16 +90,17 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerPawn::Move(const FInputActionValue& Value)
 {
-	const FVector currentValue = Value.Get<FVector>();
-	const double curX = currentValue.X;
+	currentValue = Value.Get<FVector>();
+	
+	/*const double curX = currentValue.X;
 	const double curY = currentValue.Y;
 
 	//double cannon_Value_X=FMath::Clamp(curX,-20.f,20.f);
 	//double cannon_Value_Y=FMath::Clamp(curY,5.f,0.f);
 	
-	FRotator cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
+	cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
 	
-	FVector widgetDir = FVector(0.f,curX*crossHairOffest,curY*crossHairOffest);
+	widgetDir = FVector(0.f,curX*crossHairOffest,curY*crossHairOffest);
 	
 	if (Controller)
 	{
@@ -103,19 +111,49 @@ void APlayerPawn::Move(const FInputActionValue& Value)
 		// (3)크로스 헤어는 Z,Y 축만 이동 받기
 		// (4) 대포의 회전값 은 Value 보다 적게 그리고 제한을 해주기
 		// (5) 크로스헤어의 이동은 Value 보다 많게 조절하기 그리고 제한을 주기
-		/*if(cannonPivot->GetRelativeRotation().Pitch <=5.f && cannonPivot->GetRelativeRotation().Pitch >=0.f)
-		{
-			cannonPivot->AddRelativeRotation(cannonRot);
-		}
-		if(cannonPivot->GetRelativeRotation().Pitch >5.f && curY<0.f)
-		{
-		 cannonPivot->AddRelativeRotation(cannonRot);
-		}*/
+
+
+		
 		cannonPivot->AddRelativeRotation(cannonRot);
 		crossHairWidget->AddRelativeLocation(widgetDir);
 		
-	}
+	}*/
+	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
+	ServerMove(currentValue);
 }
+
+void APlayerPawn::ServerMove_Implementation(FVector Value)
+{
+	
+	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*Value.ToString());
+	const double curX = Value.X;
+	const double curY = Value.Y;
+	
+	cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
+	
+	widgetDir = FVector(0.f,curX*crossHairOffest,curY*crossHairOffest);
+	
+	cannonPivot->AddRelativeRotation(cannonRot);
+	crossHairWidget->AddRelativeLocation(widgetDir);
+	
+	MulticastMove(currentValue);
+	
+}
+
+void APlayerPawn::MulticastMove_Implementation(FVector Value)
+{
+	const double curX = currentValue.X;
+	const double curY = currentValue.Y;
+	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
+	
+	cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
+	
+	widgetDir = FVector(0.f,curX*crossHairOffest,curY*crossHairOffest);
+	cannonPivot->AddRelativeRotation(cannonRot);
+	crossHairWidget->AddRelativeLocation(widgetDir);
+}
+
+
 
 void APlayerPawn::InputFire(const FInputActionValue& Value)
 {
@@ -134,6 +172,8 @@ void APlayerPawn::InputFire(const FInputActionValue& Value)
 	}
 }
 
+
+
 void APlayerPawn::spawnBullect()
 {
 	if(HasAuthority())
@@ -144,7 +184,7 @@ void APlayerPawn::spawnBullect()
 	
 		FVector fireDir = crossHairWidget->GetComponentLocation() - ArrowComp->GetComponentLocation();
 
-		UE_LOG(LogTemp,Warning,TEXT("%s") , *ArrowComp->GetComponentLocation().ToString());
+		//UE_LOG(LogTemp,Warning,TEXT("%s") , *ArrowComp->GetComponentLocation().ToString());
 	
 		//Rotator fireRot =  UKismetMathLibrary::MakeRotFromX(fireDir);
 		FRotator fireRot = fireDir.Rotation();
@@ -159,6 +199,8 @@ void APlayerPawn::spawnBullect()
 	
 }
 
+
+
 void APlayerPawn::ServerFire_Implementation()
 {
 	//위치를 동기화 시키기 
@@ -170,12 +212,15 @@ void APlayerPawn::MulticastFire_Implementation()
 }
 
 
-/*void APlayerPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void APlayerPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps); //부모에서 오버라이드 된 것들을 실행
 
 	// DOREPLIFETIME(ANetWorkProject1Character,elapsedTime);
 	// 서버만의 동기화 tick 에 변화값을 계속 주는 것
 	// c :클래스 v : 변수 =>UPROPERTY(Replicated) 가 되있어야 서버에서 인식 
-	DOREPLIFETIME(APlayerPawn, firePosition);
-}*/
+	DOREPLIFETIME(APlayerPawn, cannonRot);
+	DOREPLIFETIME(APlayerPawn, widgetDir);
+	DOREPLIFETIME(APlayerPawn, currentValue);
+	
+}
