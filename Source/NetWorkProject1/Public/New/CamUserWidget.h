@@ -19,13 +19,13 @@ protected:
 	
 public:	
 	UPROPERTY(VisibleAnywhere,meta=(BindWidget),Category="MySettings")
-	class UTextBlock* text_Win;
+	class UTextBlock* text_TeamA;
 	
 	UPROPERTY(VisibleAnywhere,meta=(BindWidget),Category="MySettings")
-	class UTextBlock* text_Lose;
+	class UTextBlock* text_TeamB;
 
-	void ShowtextWin();
-	void ShowtextLose();
+	void ShowTextTeamB(FText value);
+	void ShowTextTeamA(FText value);
 		
 		
 };

@@ -97,34 +97,6 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void APlayerPawn::Move(const FInputActionValue& Value)
 {
 	currentValue = Value.Get<FVector>();
-	
-	/*const double curX = currentValue.X;
-	const double curY = currentValue.Y;
-
-	//double cannon_Value_X=FMath::Clamp(curX,-20.f,20.f);
-	//double cannon_Value_Y=FMath::Clamp(curY,5.f,0.f);
-	
-	cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
-	
-	widgetDir = FVector(0.f,curX*crossHairOffest,curY*crossHairOffest);
-	
-	if (Controller)
-	{
-		//UE_LOG(LogTemp, Log, TEXT("input Vector :: %s"), *currentValue.ToString());
-		
-		// (1) 키보드의 입력값을 대포 , 크로스헤어 둘다 받기
-		// (2)대포는 입력값을 회전에만 받기 => 회전을 연속적으로 받게하기
-		// (3)크로스 헤어는 Z,Y 축만 이동 받기
-		// (4) 대포의 회전값 은 Value 보다 적게 그리고 제한을 해주기
-		// (5) 크로스헤어의 이동은 Value 보다 많게 조절하기 그리고 제한을 주기
-
-
-		
-		cannonPivot->AddRelativeRotation(cannonRot);
-		crossHairWidget->AddRelativeLocation(widgetDir);
-		
-	}*/
-	//UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
 	ServerMove(currentValue);
 }
 

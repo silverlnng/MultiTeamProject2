@@ -56,45 +56,58 @@ bool ANetGameStateBase::AscendingByScore(const APlayerState& ps1, const APlayerS
 void ANetGameStateBase::setWinTeam(FString value)
 {
 	winTeamName=value;
-	UE_LOG(LogTemp, Warning, TEXT("%s(%d) WinTeam : %s "), *FString(__FUNCTION__), __LINE__,*winTeamName);
+	
 	ShowPlayerWidget();
 }
 
 void ANetGameStateBase::ShowPlayerWidget()
 {
 // winTeamName 과 플레이어스테이트 비교해서 같은 플레이어들에게는 위젯띄우기 명령 하기
-// winTeamName = TeamB 이면 ps->bTeamB =true 인 플레이어들에게 승리 위젯 
-	for(APlayerState * It : PlayerArray)
+// winTeamName = TeamB 이면 ps->bTeamB =true 인 플레이어들에게 승리 위젯
+	
+	for(APlayerState* It : PlayerArray)
 	{
+		//PlayerArray 중에서 로컬에 PlayerState만 찾아야함 
 		ANetPlayerState* NetPS = Cast<ANetPlayerState>(It);
+		
+		APlayerPawn* playerPawn = NetPS->GetPawn<APlayerPawn>();
 
-		if(winTeamName.Equals("TeamB"))
+		AController* PC = playerPawn->GetController();
+		
+		UE_LOG(LogTemp, Warning, TEXT("%s(%d) WinTeam : %s "), *FString(__FUNCTION__), __LINE__,*winTeamName);
+		
+		if(NetPS && PC && PC->IsLocalController())
 		{
-			if(NetPS->bTeamB)
+			UE_LOG(LogTemp, Warning, TEXT("%s(%d) WinTeam : %s "), *FString(__FUNCTION__), __LINE__,*winTeamName);
+			if(winTeamName.Equals("TeamB"))
 			{
-				//로컬의 NetPS 에서 승리 위젯
-				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextWin();
-				//pawn  에 접근해서 ui를 나오도록 하기 
+				if(NetPS->bTeamB)
+				{
+					//로컬의 NetPS 에서 승리 위젯
+					playerPawn->TwoCamRenderUI->ShowTextTeamB(FText::FromString("Win"));
+					//pawn  에 접근해서 ui를 나오도록 하기 
+				}
+				else
+				{
+					playerPawn->TwoCamRenderUI->ShowTextTeamA(FText::FromString("Lose"));
+					//로컬의 NetPS 에서 lose 위젯  
+				}
 			}
-			else
-			{
-				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextLose();
-				//로컬의 NetPS 에서 lose 위젯  
-			}
+			else //승리팀이 A팀인경우
+				{
+				if(!(NetPS->bTeamB))
+				{
+					playerPawn->TwoCamRenderUI->ShowTextTeamA(FText::FromString("Win"));
+					//로컬의 NetPS 에서 승리 위젯 
+				}
+				else
+				{
+					playerPawn->TwoCamRenderUI->ShowTextTeamB(FText::FromString("Lose"));
+					//로컬의 NetPS 에서 lose 위젯  
+				}
+				}
 		}
-		else //승리팀이 A팀인경우
-		{
-			if(!(NetPS->bTeamB))
-			{
-				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextWin();
-				//로컬의 NetPS 에서 승리 위젯 
-			}
-			else
-			{
-				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextLose();
-				//로컬의 NetPS 에서 lose 위젯  
-			}
-		}
+		
 		
 	}
 }

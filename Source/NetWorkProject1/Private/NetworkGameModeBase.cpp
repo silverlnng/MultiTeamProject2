@@ -129,7 +129,6 @@ AActor* ANetworkGameModeBase::ChoosePlayerStart(AController* Player)
 			return Starts[FMath::RandRange(0, Starts.Num() - 1)];
 		}
 	}
-
 	return NULL;
 }
 

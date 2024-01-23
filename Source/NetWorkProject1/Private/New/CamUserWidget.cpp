@@ -2,24 +2,25 @@
 
 
 #include "New/CamUserWidget.h"
-
 #include "Components/TextBlock.h"
 
 void UCamUserWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	text_Win->SetVisibility(ESlateVisibility::Hidden);
-	text_Lose->SetVisibility(ESlateVisibility::Hidden);
+	text_TeamB->SetVisibility(ESlateVisibility::Hidden);
+	text_TeamA->SetVisibility(ESlateVisibility::Hidden);
 	
 }
 
-void UCamUserWidget::ShowtextWin()
+void UCamUserWidget::ShowTextTeamB(FText value)
 {
-	text_Win->SetVisibility(ESlateVisibility::Visible);
+	text_TeamB->SetText(value);
+	text_TeamB->SetVisibility(ESlateVisibility::Visible);
 }
 
-void UCamUserWidget::ShowtextLose()
+void UCamUserWidget::ShowTextTeamA(FText value)
 {
-	text_Lose->SetVisibility(ESlateVisibility::Visible);
+	text_TeamA->SetText(value);
+	text_TeamA->SetVisibility(ESlateVisibility::Visible);
 }
 

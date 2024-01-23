@@ -19,6 +19,7 @@ void ANetPlayerState::BeginPlay()
 		UE_LOG(LogTemp,Warning,TEXT("sessionName :%s")  ,*sessionName);
 		sesrverSetMyName(sessionName);
 	}
+
 	
 }
 
