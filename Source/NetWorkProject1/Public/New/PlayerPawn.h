@@ -68,6 +68,10 @@ public:
 	ABullect* bullect;
 
 	APlayerController* pc;
+
+	UPROPERTY(EditAnywhere,Category="MySettings")
+	TSubclassOf<class UUserWidget> TwoCamRenderwidget;
+	
 	
 private:
 	

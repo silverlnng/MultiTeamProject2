@@ -61,7 +61,7 @@ void ANetworkGameModeBase::PostLogin(APlayerController* NewPlayer)
 		
 		ANetPlayerState* PS = Cast<ANetPlayerState>(NewPlayer->PlayerState);
 		
-		ANetGameStateBase* Gamestate = GetGameState<ANetGameStateBase>();
+		//ANetGameStateBase* Gamestate = GetGameState<ANetGameStateBase>();
 
 		if (PS && GameState)
 		{
@@ -144,6 +144,5 @@ void ANetworkGameModeBase::ShowStartWidget()
 	{
 		GameInstance->ShowStartWidget();
 	}*/
-
-
+	
 }

@@ -54,9 +54,14 @@ void APlayerPawn::BeginPlay()
 
 		}
 	}
-	if(HasAuthority())
+	
+	if (TwoCamRenderwidget != nullptr && GetController() != nullptr && GetController()->IsLocalController())
 	{
-		
+		UUserWidget* TwoCamRenderUI = CreateWidget<UUserWidget>(GetWorld(), TwoCamRenderwidget);
+		if (TwoCamRenderUI != nullptr)
+		{
+			TwoCamRenderUI->AddToViewport(); //UI 는 자신의 UI 만 띄우기 
+		}
 	}
 }
 

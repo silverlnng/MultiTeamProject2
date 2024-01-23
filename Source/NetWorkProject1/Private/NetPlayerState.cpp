@@ -29,6 +29,8 @@ void ANetPlayerState::sesrverSetMyName_Implementation(const FString& name)
 	//playerState 에 구현되어있는 privateName 변수의 값을 들어온 값으로 갱신 
 }
 
+
+
 void ANetPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

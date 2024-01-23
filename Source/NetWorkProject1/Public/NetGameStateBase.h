@@ -30,4 +30,6 @@ public:
 	//플레이어가 team B 인경우
 	FString winTeamName;
 	void setWinTeam(FString value);
+
+	void PlayerWidget();
 };
