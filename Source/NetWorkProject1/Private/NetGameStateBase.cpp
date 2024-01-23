@@ -48,3 +48,12 @@ bool ANetGameStateBase::AscendingByScore(const APlayerState& ps1, const APlayerS
 {
 	return ps1.GetScore() < ps2.GetScore();
 }
+
+void ANetGameStateBase::setWinTeam(FString value)
+{
+	winTeamName=value;
+	UE_LOG(LogTemp, Warning, TEXT("%s(%d) WinTeam : %s "), *FString(__FUNCTION__), __LINE__,*winTeamName);
+}
+
+//winTeamName 과 플레이어스테이트 비교해서 같은 플레이어들에게는 위젯띄우기 명령 하기
+// winTeamName = TeamB 이면 ps->bTeamB =true 인 플레이어들에게 승리 위젯 

@@ -2,7 +2,10 @@
 
 
 #include "New/BlockCheckActor.h"
+
+#include "NetGameStateBase.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/GameStateBase.h"
 
 // Sets default values
 ABlockCheckActor::ABlockCheckActor()
@@ -18,7 +21,7 @@ ABlockCheckActor::ABlockCheckActor()
 	meshComp->SetupAttachment(RootComponent);
 	meshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	mouse = CreateDefaultSubobject<USceneComponent>(TEXT("mouse"));
+	mouse = CreateDefaultSubobject<USceneComponent>(TEXT("another"));
 	mouse->SetupAttachment(meshComp);
 }
 
@@ -26,7 +29,7 @@ ABlockCheckActor::ABlockCheckActor()
 void ABlockCheckActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	GameState = GetWorld()->GetGameState<ANetGameStateBase>();
 }
 
 // Called every frame
@@ -55,8 +58,12 @@ void ABlockCheckActor::Tick(float DeltaTime)
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s(%d) block : zero "), *FString(__FUNCTION__), __LINE__);
+		GameState->setMatchEnd(true);
+		GameState->setWinTeam(team);
 	}
 	
 	DrawDebugBox(GetWorld(),GetActorLocation(),FVector(400.f,800.f,500.f),FQuat::Identity,FColor::Magenta,false,0,0,1.0f);
+
+	
 }
 

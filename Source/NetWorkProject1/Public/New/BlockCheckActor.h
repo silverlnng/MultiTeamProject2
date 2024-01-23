@@ -32,6 +32,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MySettings")
 	class USceneComponent* mouse;
 
-	int32 blockNum=0;	
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	class ANetGameStateBase* GameState;
+
+	int32 blockNum=0;
+
+	bool bisEnd=false;
+
+	UPROPERTY(EditAnywhere, Category = "MySettings")
+	FString team;
 
 };

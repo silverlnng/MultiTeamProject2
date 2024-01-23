@@ -118,14 +118,14 @@ void APlayerPawn::Move(const FInputActionValue& Value)
 		crossHairWidget->AddRelativeLocation(widgetDir);
 		
 	}*/
-	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
+	//UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
 	ServerMove(currentValue);
 }
 
 void APlayerPawn::ServerMove_Implementation(FVector Value)
 {
 	
-	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*Value.ToString());
+	//UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*Value.ToString());
 	const double curX = Value.X;
 	const double curY = Value.Y;
 	
@@ -144,7 +144,7 @@ void APlayerPawn::MulticastMove_Implementation(FVector Value)
 {
 	const double curX = currentValue.X;
 	const double curY = currentValue.Y;
-	UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
+	//UE_LOG(LogTemp, Log, TEXT(" %s(%d) input Vector :: %s"),*FString(__FUNCTION__), __LINE__,*currentValue.ToString());
 	
 	cannonRot =FRotator(curY*cannonOffest_y,curX*cannonOffest_x,0);
 	
@@ -221,6 +221,6 @@ void APlayerPawn::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifet
 	// c :클래스 v : 변수 =>UPROPERTY(Replicated) 가 되있어야 서버에서 인식 
 	DOREPLIFETIME(APlayerPawn, cannonRot);
 	DOREPLIFETIME(APlayerPawn, widgetDir);
-	DOREPLIFETIME(APlayerPawn, currentValue);
+	//DOREPLIFETIME(APlayerPawn, currentValue);
 	
 }

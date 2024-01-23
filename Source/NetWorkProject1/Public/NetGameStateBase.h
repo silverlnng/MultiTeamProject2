@@ -23,4 +23,11 @@ public:
 	
 	static bool DescendingByScore(const APlayerState& ps1,const APlayerState& ps2);
 	static bool AscendingByScore(const APlayerState& ps1,const APlayerState& ps2);
+
+	bool bisMatchEnd=false;
+	FORCEINLINE void setMatchEnd(bool value){bisMatchEnd=value;}
+
+	//플레이어가 team B 인경우
+	FString winTeamName;
+	void setWinTeam(FString value);
 };

@@ -83,7 +83,7 @@ private:
 	FRotator cannonRot;
 	UPROPERTY(Replicated)
 	FVector widgetDir;
-	UPROPERTY(Replicated)
+	//UPROPERTY(Replicated)
 	FVector currentValue;
 	
 	
