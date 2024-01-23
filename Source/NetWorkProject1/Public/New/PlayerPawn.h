@@ -70,8 +70,8 @@ public:
 	APlayerController* pc;
 
 	UPROPERTY(EditAnywhere,Category="MySettings")
-	TSubclassOf<class UUserWidget> TwoCamRenderwidget;
-	
+	TSubclassOf<class UCamUserWidget> TwoCamRenderwidget;
+	UCamUserWidget* TwoCamRenderUI;
 	
 private:
 	

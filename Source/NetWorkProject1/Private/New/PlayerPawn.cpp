@@ -14,6 +14,7 @@
 #include "Net/UnrealNetwork.h"
 #include "New/Bullect.h"
 #include "net/UnrealNetwork.h"
+#include "New/CamUserWidget.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -57,7 +58,7 @@ void APlayerPawn::BeginPlay()
 	
 	if (TwoCamRenderwidget != nullptr && GetController() != nullptr && GetController()->IsLocalController())
 	{
-		UUserWidget* TwoCamRenderUI = CreateWidget<UUserWidget>(GetWorld(), TwoCamRenderwidget);
+		TwoCamRenderUI = CreateWidget<UCamUserWidget>(GetWorld(), TwoCamRenderwidget);
 		if (TwoCamRenderUI != nullptr)
 		{
 			TwoCamRenderUI->AddToViewport(); //UI 는 자신의 UI 만 띄우기 

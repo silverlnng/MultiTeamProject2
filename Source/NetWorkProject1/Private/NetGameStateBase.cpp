@@ -5,6 +5,8 @@
 
 #include "NetPlayerState.h"
 #include "GameFramework/PlayerState.h"
+#include "New/CamUserWidget.h"
+#include "New/PlayerPawn.h"
 
 TArray<APlayerState*> ANetGameStateBase::GetMyPlayerList()
 {
@@ -55,9 +57,10 @@ void ANetGameStateBase::setWinTeam(FString value)
 {
 	winTeamName=value;
 	UE_LOG(LogTemp, Warning, TEXT("%s(%d) WinTeam : %s "), *FString(__FUNCTION__), __LINE__,*winTeamName);
+	ShowPlayerWidget();
 }
 
-void ANetGameStateBase::PlayerWidget()
+void ANetGameStateBase::ShowPlayerWidget()
 {
 // winTeamName 과 플레이어스테이트 비교해서 같은 플레이어들에게는 위젯띄우기 명령 하기
 // winTeamName = TeamB 이면 ps->bTeamB =true 인 플레이어들에게 승리 위젯 
@@ -69,10 +72,13 @@ void ANetGameStateBase::PlayerWidget()
 		{
 			if(NetPS->bTeamB)
 			{
-				//로컬의 NetPS 에서 승리 위젯  
+				//로컬의 NetPS 에서 승리 위젯
+				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextWin();
+				//pawn  에 접근해서 ui를 나오도록 하기 
 			}
 			else
 			{
+				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextLose();
 				//로컬의 NetPS 에서 lose 위젯  
 			}
 		}
@@ -80,10 +86,12 @@ void ANetGameStateBase::PlayerWidget()
 		{
 			if(!(NetPS->bTeamB))
 			{
+				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextWin();
 				//로컬의 NetPS 에서 승리 위젯 
 			}
 			else
 			{
+				NetPS->GetPawn<APlayerPawn>()->TwoCamRenderUI->ShowtextLose();
 				//로컬의 NetPS 에서 lose 위젯  
 			}
 		}

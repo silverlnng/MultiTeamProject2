@@ -31,5 +31,5 @@ public:
 	FString winTeamName;
 	void setWinTeam(FString value);
 
-	void PlayerWidget();
+	void ShowPlayerWidget();
 };
